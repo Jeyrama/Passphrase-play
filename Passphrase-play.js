@@ -61,3 +61,5 @@ const alphabet = [
         .reverse()
         .join('');
   }
+
+// or
