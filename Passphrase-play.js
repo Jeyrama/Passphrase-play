@@ -20,3 +20,44 @@ Example:
 
 
 // Solution
+
+const alphabet = [
+  'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i',
+  'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r',
+  's', 't', 'u', 'v', 'w', 'x', 'y', 'z'
+  ];
+  
+  const downcase = letter => String(letter).toLowerCase();
+  const uppercase = letter => String(letter).toUpperCase();
+  
+  const shift = pos => letter => {
+    const isUpper = letter.toUpperCase() === letter;
+    const index = alphabet.findIndex(el => el === letter.toLowerCase());
+    const resultLetter = alphabet[(index + pos) % 26];
+    return isUpper ? uppercase(resultLetter) : resultLetter;
+  };
+  
+  const digitReplace = dig => 9 - (+dig);
+  
+  const isAlpha = char => RegExp(/[a-zA-Z]/).test(char);
+  const isDigit = char => RegExp(/\d/).test(char);
+  
+  const isOddPos = pos => pos % 2 !== 0;
+  
+  const filterCase = (shifter, digitReplace) => char => {
+    if (isAlpha(char)) return shifter(char);
+    if (isDigit(char)) return digitReplace(char);
+    return char;
+  };
+  
+  function playPass(s, n) {
+      const arr = s.split('');
+      const shifter = shift(n);
+      const filter = filterCase(shifter, digitReplace);
+  
+      return arr
+        .map(filter)
+        .map((el, pos) => isOddPos(pos) ? downcase(el) : uppercase(el))
+        .reverse()
+        .join('');
+  }
